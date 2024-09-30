@@ -1,0 +1,111 @@
+import random
+
+# ASCII art for hangman stages
+stages = [
+    '''
+      +---+
+      |   |
+      O   |
+     /|\\  |
+     / \\  |
+          |
+    =========
+    ''', '''
+      +---+
+      |   |
+      O   |
+     /|\\  |
+     /    |
+          |
+    =========
+    ''', '''
+      +---+
+      |   |
+      O   |
+     /|\\  |
+          |
+          |
+    =========
+    ''', '''
+      +---+
+      |   |
+      O   |
+     /|   |
+          |
+          |
+    =========
+    ''', '''
+      +---+
+      |   |
+      O   |
+      |   |
+          |
+          |
+    =========
+    ''', '''
+      +---+
+      |   |
+      O   |
+          |
+          |
+          |
+    =========
+    ''', '''
+      +---+
+      |   |
+          |
+          |
+          |
+          |
+    =========
+    '''
+]
+
+word_list = ["aardvark", "baboon", "camel"]
+
+# Set the number of lives
+lives = 6
+chosen_word = random.choice(word_list)
+print(chosen_word)  # For testing purposes
+
+# Create a placeholder for the guessed word
+placeholder = "_" * len(chosen_word)
+print(placeholder)
+
+game_over = False
+correct_letters = []
+
+while not game_over:
+    guess = input("Guess a letter: ").lower()
+
+    # Update display based on the guess
+    display = ""
+    for letter in chosen_word:
+        if letter == guess:
+            display += letter
+            correct_letters.append(guess)
+        elif letter in correct_letters:
+            display += letter
+        else:
+            display += "_"
+
+    print(display)
+
+    # Check if the guess is incorrect
+    if guess not in chosen_word:
+        lives -= 1
+        print(f"You guessed '{guess}', that's not in the word. Lives left: {lives}")
+
+    # Print the corresponding stage for the remaining lives
+    print(stages[lives])
+
+    # Check for win condition
+    if "_" not in display:
+        game_over = True
+        print("You win!")
+
+    # Check for lose condition
+    if lives == 0:
+        game_over = True
+        print("You lose. The word was:", chosen_word)
+
